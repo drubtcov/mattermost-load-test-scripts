@@ -14,3 +14,6 @@ create_channels:
 
 create_dm_and_gm:
 	dist/plugin-build create_dm_and_gm
+
+create_posts:
+	k6 run k6/createPosts.js

@@ -12,6 +12,7 @@ const (
 	ClearStore     = "clear_store"
 	CreateChannels = "create_channels"
 	CreateDMAndGMs = "create_dm_and_gm"
+	CreatePosts    = "create_posts"
 )
 
 const (
