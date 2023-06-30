@@ -6,13 +6,15 @@ const (
 	TempStoreFile = "temp_store.json"
 )
 
-// Script arguments
+// Scripts arguments
 const (
-	CreateUsers = "create_users"
-	ClearStore  = "clear_store"
+	CreateUsers    = "create_users"
+	ClearStore     = "clear_store"
+	CreateChannels = "create_channels"
+	CreateDMAndGMs = "create_dm_and_gm"
 )
 
-// Data keys
 const (
-	NewUsersKey = "createdUsers"
+	MinUsersForDM = 2
+	MinUsersForGM = 3
 )
