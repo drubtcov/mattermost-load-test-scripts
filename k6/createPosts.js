@@ -3,18 +3,38 @@ import http from 'k6/http';
 const config = JSON.parse(open('../config/config.json'));
 const creds = JSON.parse(open('../temp_store.json'));
 
-export const options = {
-    vus: config.LoadTestConfiguration.VirtualUserCount,
-    duration: config.LoadTestConfiguration.Duration,
+export var options = {};
+const {RPS, Executor, Duration, Rate, TimeUnit, VirtualUserCount} = config.LoadTestConfiguration;
+const {ServerURL} = config.ConnectionConfiguration;
+const {MaxWordsCount, MaxWordLength} = config.PostsConfiguration;
+
+if (RPS) {
+    options = {
+        discardResponseBodies: true,
+        scenarios: {
+            contacts: {
+                executor: Executor,
+                duration: Duration,
+                rate: Rate,
+                timeUnit: TimeUnit,
+                preAllocatedVUs: VirtualUserCount,
+            },
+        }
+    }
+} else {
+    options = {
+        vus: VirtualUserCount,
+        duration: Duration,
+    }
 }
 
 export function setup() {
-	if (config.PostsConfiguration.MaxWordsCount <= 0) {
+	if (MaxWordsCount <= 0) {
         console.error("Error in validating the posts configuration:", "max word count should be greater than 0");
 		return;
 	}
 
-	if (config.PostsConfiguration.MaxWordLength <= 0) {
+	if (MaxWordLength <= 0) {
         console.error("Error in validating the posts configuration:", "max word length should be greater than 0");
 		return;
 	}
@@ -63,7 +83,7 @@ function getRandomChannel() {
 export default function() {
     const payload = JSON.stringify({
         channel_id: getRandomChannel(),
-        message: getRandomMessage(config.PostsConfiguration.MaxWordsCount, config.PostsConfiguration.MaxWordLength)
+        message: getRandomMessage(MaxWordsCount, MaxWordLength)
     })
 
     const headers = {
@@ -71,5 +91,8 @@ export default function() {
         Authorization: `Bearer ${getRandomToken()}`,
     }
 
-    http.post(`${config.ConnectionConfiguration.ServerURL}/api/v4/posts`, payload, {headers});
+    const resp = http.post(`${ServerURL}/api/v4/posts`, payload, {headers});
+    check(resp, {
+        'Post status is 201': (r) => resp.status === 201,
+    });
 }
