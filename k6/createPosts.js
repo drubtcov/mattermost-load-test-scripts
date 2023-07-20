@@ -1,3 +1,4 @@
+import {check} from 'k6';
 import http from 'k6/http';
 
 const config = JSON.parse(open('../config/config.json'));
