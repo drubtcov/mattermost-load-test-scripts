@@ -107,10 +107,6 @@ func (c *Config) IsChannelsConfigurationValid() error {
 			return fmt.Errorf("%s. index: %d", constants.ErrorEmptyMMTeamName, idx)
 		}
 
-		if channel.MSTeamsChannelID == "" {
-			return fmt.Errorf("%s. index: %d", constants.ErrorEmptyMSTeamsChannelID, idx)
-		}
-
 		if channel.Type != string(model.ChannelTypePrivate) && channel.Type != string(model.ChannelTypeOpen) {
 			return fmt.Errorf("%s. index: %d", constants.ErrorInvalidChannelType, idx)
 		}
