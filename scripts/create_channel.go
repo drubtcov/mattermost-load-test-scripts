@@ -1,7 +1,6 @@
 package scripts
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/mattermost/mattermost-server/v6/model"
