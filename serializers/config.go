@@ -33,8 +33,6 @@ type ChannelsConfiguration struct {
 	Name             string
 	Type             string
 	MMTeamName       string
-	MSTeamsTeamID    string
-	MSTeamsChannelID string
 }
 
 type PostsConfiguration struct {
@@ -92,8 +90,6 @@ func (c *Config) IsChannelsConfigurationValid() error {
 	for idx, channel := range c.ChannelsConfiguration {
 		channel.Name = strings.TrimSpace(channel.Name)
 		channel.Type = strings.TrimSpace(channel.Type)
-		channel.MSTeamsTeamID = strings.TrimSpace(channel.MSTeamsTeamID)
-		channel.MSTeamsChannelID = strings.TrimSpace(channel.MSTeamsChannelID)
 
 		if channel.DisplayName == "" {
 			return fmt.Errorf("%s. index: %d", constants.ErrorEmptyChannelDisplayName, idx)
@@ -109,10 +105,6 @@ func (c *Config) IsChannelsConfigurationValid() error {
 
 		if channel.MMTeamName == "" {
 			return fmt.Errorf("%s. index: %d", constants.ErrorEmptyMMTeamName, idx)
-		}
-
-		if channel.MSTeamsTeamID == "" {
-			return fmt.Errorf("%s. index: %d", constants.ErrorEmptyMSTeamsTeamID, idx)
 		}
 
 		if channel.MSTeamsChannelID == "" {

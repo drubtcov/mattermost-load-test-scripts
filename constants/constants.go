@@ -31,7 +31,5 @@ const (
 	ErrorEmptyChannelSlugName    = "channel slug name should not be empty"
 	ErrorEmptyChannelType        = "channel type should not be empty"
 	ErrorEmptyMMTeamName         = "mattermost team name should not be empty"
-	ErrorEmptyMSTeamsTeamID      = "ms teams team ID should not be empty"
-	ErrorEmptyMSTeamsChannelID   = "ms teams channel ID should not be empty"
 	ErrorInvalidChannelType      = "invalid channel type"
 )

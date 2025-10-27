@@ -61,13 +61,6 @@ func CreateChannels(config *serializers.Config, logger *zap.Logger) error {
 				continue
 			}
 		}
-
-		channelLinkCommand := fmt.Sprintf("/msteams-sync link %s %s", channel.MSTeamsTeamID, channel.MSTeamsChannelID)
-		if _, _, err := client.ExecuteCommand(createdChannel.Id, channelLinkCommand); err != nil {
-			logger.Error("Unable to execute the command to link the channel", zap.Error(err))
-			continue
-		}
-
 	}
 
 	response.ChannelResponse = newChannels

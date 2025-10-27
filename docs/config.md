@@ -36,12 +36,6 @@ The type of new channel to be created. Channel types can be `O` and `P`, which d
 ### MMTeamName: *string*
 The Mattermost team name for the new channel to be created.
 
-### MSTeamsTeamID: *string*
-The MS Teams Team ID having the MS Teams channel to which the Mattermost channel is to be linked.
-
-### MSTeamsChannelID: *string*
-The MS Teams Channel ID to which the Mattermost channel is to be linked.
-
 ## Post Configurations
 
 ### MaxWordsCount: *int*
