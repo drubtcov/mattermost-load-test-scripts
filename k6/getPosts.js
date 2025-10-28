@@ -67,7 +67,7 @@ export default function() {
         Authorization: `Bearer ${getRandomToken()}`,
     }
     const channel_id = getRandomChannel()
-    const resp = http.get(`${ServerURL}/api/v4/channels/${channel_id}/posts?per_page=1000`, {headers})
+    const resp = http.get(`${ServerURL}/api/v4/channels/${channel_id}/posts?per_page=10`, {headers})
     check(resp, {
         'Get status is 200': (r) => resp.status === 200,
     });
