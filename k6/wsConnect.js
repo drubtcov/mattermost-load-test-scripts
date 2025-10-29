@@ -1,4 +1,3 @@
-import {check} from 'k6';
 import ws from 'k6/ws';
 import { check, sleep } from 'k6';
 
