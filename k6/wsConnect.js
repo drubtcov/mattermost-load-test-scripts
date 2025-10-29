@@ -107,5 +107,5 @@ export default function() {
     });
     
     check(res, { 'Connected successfully': (r) => r && r.status === 101 });
-    sleep(1);
+    sleep(100);
 }
