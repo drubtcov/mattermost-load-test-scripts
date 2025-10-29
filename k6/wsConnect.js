@@ -66,7 +66,7 @@ export default function() {
     const url = 'wss://chat.testkontur.ru/';
     const params = { tags: { my_tag: 'my ws session' } };
     const user = `user_${__VU}`;
-
+    console.log(`VU ${__VU}: started`);
     const res = ws.connect(url, params, function (socket) {
         socket.on('open', function open() {
           console.log(`VU ${__VU}: connected`);
