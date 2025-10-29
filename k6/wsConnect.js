@@ -1,6 +1,6 @@
 import {check} from 'k6';
-import http from 'k6/http';
 import ws from 'k6/ws';
+import { check, sleep } from 'k6';
 
 const config = JSON.parse(open('../config/config.json'));
 const creds = JSON.parse(open('../temp_store.json'));
