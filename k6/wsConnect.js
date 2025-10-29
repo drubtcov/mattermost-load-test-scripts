@@ -63,37 +63,50 @@ function getRandomChannel() {
 }
 
 export default function() {
+
     const url = 'wss://chat.testkontur.ru/';
-    const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${getRandomToken()}`,
-    }
-    const channel_id = getRandomChannel()
-    const resp = http.get(`${ServerURL}/api/v4/channels/${channel_id}/posts?per_page=10`, {headers})
-    check(resp, {
-        'Get status is 200': (r) => resp.status === 200,
-    });
-    const res = ws.connect(url, null, function (socket) {
-    socket.on('open', () => {
-      console.log('connected');
-      socket.send('k6 send hello');
+    const params = { tags: { my_tag: 'my ws session' } };
+    const user = `user_${__VU}`;
+
+    const res = ws.connect(url, params, function (socket) {
+        socket.on('open', function open() {
+          console.log(`VU ${__VU}: connected`);
+          socket.send(JSON.stringify({ msg: 'Hello!', user: user }));
+          socket.setInterval(function timeout() {
+            socket.send(
+                JSON.stringify({
+                    user: user,
+                    msg: `I'm saying ${randomString(5)}`,
+                    foo: 'bar',
+          })
+        );
+      }, randomIntBetween(1000, 2000)); // say something every 1-2 seconds
     });
 
-    socket.on('message', (data) => {
-      console.log('Message received: ', data);
-      check(data, {
-        'message is not empty': (d) => d !== '',
-      });
+    socket.on('pong', function () {
+      console.log('PONG!');
     });
 
-    socket.on('close', () => {
-      console.log('disconnected');
+    socket.on('close', function () {
+      console.log(`VU ${__VU}: disconnected`);
     });
 
-    socket.on('error', (e) => {
-      console.error('WebSocket error:', e.error());
+    socket.on('message', function (message) {
+      const data = JSON.parse(message);
+      console.log(`VU ${__VU} received message: ${data.msg}`);
     });
-  });
-  
-  check(res, { 'status is 101': (r) => r && r.status === 101 });
+
+    socket.setTimeout(function () {
+      console.log(`VU ${__VU}: ${sessionDuration}ms passed, leaving the website`);
+      socket.send(JSON.stringify({ msg: 'Goodbye!', user: user }));
+    }, sessionDuration);    
+    
+    socket.setTimeout(function () {
+      console.log(`Closing the socket forcefully 3s after graceful LEAVE`);
+      socket.close();
+    }, sessionDuration + 3000);    
+    });
+    
+    check(res, { 'Connected successfully': (r) => r && r.status === 101 });
+    sleep(1);
 }
